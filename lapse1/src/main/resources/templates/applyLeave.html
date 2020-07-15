@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>Leave Application</title>
+</head>
+<body>
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+<div class="container" >
+<h1 align="center">Leave Application</h1>
+
+<form action="#" th:object="${leaveapplication}" th:action="@{/leave/submit}" method="post" style="display: block; margin-left: auto; margin-right: auto; width: 25%;">
+  <div class="mx-auto d-left"> 
+  <input type="hidden" th:field="*{id}">  
+    <input type="hidden" th:value="${session.id}" th:attr="name='staff.id'"> 
+    <div th:each="type : ${leavetypes}">
+      <input type="radio" th:field="${leaveapplication.leaveType.leaveType}" th:value="${type}" class="form-check-input">
+         <label th:for="${#ids.seq('leaveapplication.leaveType.leaveType')}" th:text="${type}" class="form-check-label">type</label>
+    </div>
+    <script> 
+        document.getElementById('leaveType.leaveType1').checked=true; 
+    </script>
+
+       <label class="control-label">Overseas Trip:</label>
+         
+         <label class="radio-inline"><input type="radio" checked value="true" th:field="*{overseasTrip}">Yes</label>
+         
+         <label class="radio-inline"><input type="radio"  value="false" th:field="*{overseasTrip}" >No</label>
+   
+    
+     <div class="form-group">
+       <label>Start Date:</label>
+        <div>          
+          <input type="text" class="form-control" th:field="*{startDate}" placeholder="e.g. 20-09-2019" style=" width :300px">
+      <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" style="color:red"></p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+       <label>End Date:</label>
+        <div>          
+          <input type="text" class="form-control" th:field="*{endDate}" placeholder="e.g. 20-09-2019" style=" width :300px">
+      <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" style="color:red"></p>
+        </div>
+      </div> 
+      
+      <div class="form-group">
+        <label for="comment">Reason:</label>
+        <textarea class="form-control" th:field="*{reason}" style="width:300px"></textarea>
+        <p th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}" style="color:red"></p>
+      </div>
+      
+      <div class="form-group">
+       <label>Work Dissemination:</label>
+        <div>          
+          <input type="text" class="form-control" th:field="*{workDissemination}" style=" width :300px">
+        </div>
+      </div> 
+      
+      <div class="form-group">
+       <label>Contact Detail:</label>
+        <div>          
+          <input type="text" class="form-control" th:field="*{contactDetails}" style=" width :300px">
+          <p th:if="${#fields.hasErrors('contactDetails')}" th:errors="*{contactDetails}"></p>
+        </div>
+      </div> 
+       
+      <div class="form-group">   
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+          <button type="submit" class="btn btn-success" style="width:100px">Submit</button>
+          <button type="reset" class="btn btn-primary" style="width:100px">Reset</button>
+        </div>
+      </div>
+     </div>
+  </form>  
+</div>  
+<div style="margin-bottom: 70px"></div>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>

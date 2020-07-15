@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Staff Listing</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<h1>Staff Leave Balance</h1>
+    <div th:if="${error != ''}" th:text="${error}"></div>
+	<h2 th:if="${not #lists.isEmpty(slist)}">Staff List</h2>
+	<table class="w3-container" th:if="${not #lists.isEmpty(slist)}">
+		<tr th:each="staff:${slist}">
+			<td th:text=${staff.id}>Id</td>
+			<td th:text=${staff.name}>Name</td>
+			<td th:text=${staff.role}>Role</td>
+			<td th:text=${staff.email}>Email</td>
+			
+			<td><a href="EditStaff.html"
+			th:href="@{/staff/edit/}+${staff.id}" >View Leaves</a></td>
+		    <!--  <td th:text=${staff.annualLeaveEntitlement}>Annual Leave Entitlement</td>
+			<td th:text=${staff.medicalLeaveEntitlement}>Medical Leave Entitlement</td>
+			<td th:text=${staff.compensationLeaveEntitlement}>Compensation Leave Entitlement</td> -->
+			<td><a href="EditStaff.html"
+				th:href="@{/staff/edit/}+${staff.id}" >Edit</a></td>
+			<td><a href="DeleteStaff.html"
+				th:href="@{/staff/delete/}+${staff.id}">Delete</a></td>
+			<td th:if="${staff.role == 'Staff'}">
+			<a href="PromoteStaff.html"
+				th:href="@{/staff/promote/}+${staff.id}">Promote</a></td>
+			<td th:if="${staff.role == 'Manager'}">
+			<a href="DemoteStaff.html"
+				th:href="@{/staff/demote/}+${staff.id}">Demote</a></td>
+		</tr>
+	</table>
+
+
+</body>
+</html>

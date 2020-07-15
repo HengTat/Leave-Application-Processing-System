@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<title>Public Holiday Form</title>
+<style>
+form
+{
+    margin-top:20px;
+    margin-left:100px;
+    width:360px;
+    height:250px;
+    display:inline-block;
+}
+</style>
+
+</head>
+<body>
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+<h1 style="margin-left:100px;">Public Holiday Form</h1>
+<form action="#" th:object="${publicholiday}" th:action="@{/ph/save}" method="post" >
+		<fieldset>
+		<input type="hidden" th:field="*{id}">  
+		</fieldset>
+		<fieldset>
+			Name: <input type="text" class="form-control" th:field="*{name}">
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+		</fieldset>
+			<fieldset>
+			Start Date:
+			<input type="text" class="form-control" th:field="*{startDate}" placeholder="dd-MM-yyyy"
+              th:text="${#dates.format(publicholiday.startDate, 'dd-MM-yyyy')}"/>
+              <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+		</fieldset>
+		<fieldset>
+			End Date:
+			<input type="text" class="form-control" th:field="*{endDate}" placeholder="dd-MM-yyyy" 
+              th:text="${#dates.format(publicholiday.endDate, 'dd-MM-yyyy')}"/>
+              <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p>
+		</fieldset>	
+		<br>
+		<fieldset>
+			<button type="submit" class="btn btn-success" >Save</button>
+			<button type="reset" class="btn btn-danger">Reset</button>
+		</fieldset>
+		
+	</form>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>
+

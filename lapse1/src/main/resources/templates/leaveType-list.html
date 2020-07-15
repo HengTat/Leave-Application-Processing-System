@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<title>Leave Type Listing</title>
+</head>
+<body>
+
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+<h1 style="margin-left:20px">Leave Type Listing</h1>
+	<a th:href="@{/leavetype/add}" class="btn btn-success" style="margin-left:20px">Add New Leave Type</a>
+<!-- 	<a href="AddLeaveType.html" th:href="@{/leavetype/add}" style="margin-left:20px">Add Leave Type</a> -->
+    <div th:if="${error != ''}" th:text="${error}"></div>
+ <div style="width:900px; margin-left:50px" align="center">
+	<h2 th:if="${not #lists.isEmpty(ltlist)}" align="center">Leave Type List</h2>
+	<table  class="table table-bordered" th:if="${not #lists.isEmpty(ltlist)}">
+		<tr style="background-color:lightgrey;text-align:center">
+		    <td ><b>Id</b></td>	
+			<td ><b>Leave Type Name</b></td>			
+			<td ><b>Entitlement</b></td>
+			<td colspan="3"><b>Actions</b></td>
+		</tr>
+		
+		<tr th:each="leaveType:${ltlist}">
+			<td th:text=${leaveType.id}>Id</td>
+			<td th:text=${leaveType.leaveType}>Leave Type</td>
+			<td th:text=${leaveType.entitlement}>Entitlement</td>
+			<td><a href="DeleteLeaveType.html"
+				th:href="@{/leavetype/delete/}+${leaveType.id}"
+				th:if="${#lists.isEmpty(leaveType.staffList)}">Delete</a></td>
+		</tr>
+	</table>
+</div>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>	
+</body>
+</html>

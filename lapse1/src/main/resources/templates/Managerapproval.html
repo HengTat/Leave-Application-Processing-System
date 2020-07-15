@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>Managerapproval</title>
+</head>
+<body>
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+<div class="container" style="float:left; margin-left:80px; width:750px">
+<h1 align="center">Leave Pending Approval</h1>
+<p th:if="${LeaveApplication.empty}" style="color:red"  align="center">No applied applications found.</p>
+<table class="table table-bordered" align="center" th:if="${not #lists.isEmpty(LeaveApplication)}">
+       <thead style="background-color:lightgrey" margin-left:50px;>  
+         <tr>
+		    <td><b>Staff</b></td>	
+			<td><b>Application Date</b></td>			
+			<td><b>Start Date</b></td>
+			<td><b>End Date</b></td>			
+			<td><b>Leave Type</b></td>
+			<td><b>Number of Days</b></td>
+            <td><b>Detail</b></td>
+		</tr>		
+		</thead>	
+		<tbody>
+			<tr th:each="LeaveApplication:${LeaveApplication}">		
+			    <td th:text=${LeaveApplication.staff.name}>Staff</td>	
+				<td th:text=${LeaveApplication.applicationDate}>Application Date</td>			
+				<td th:text=${LeaveApplication.startDate}>Start Date</td>
+				<td th:text=${LeaveApplication.endDate}>End Date</td>			
+				<td th:text=${LeaveApplication.leaveType.leaveType}>Leave Type</td>
+				<td th:text=${LeaveApplication.noOfDays}>Number of Days</td>
+				<td><a class="button2" th:href="@{/leave/viewdetails/}+${LeaveApplication.id}">View Details</a></td>
+	        </tr>
+		</tbody>
+        </table>
+</div>	
+<th:block th:replace="~{layout/layout :: footer}"></th:block>	
+</body>
+</html>

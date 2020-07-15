@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  
+ 
+  
+<title>Home Page</title>
+</head>
+<body>
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="row" style="margin-bottom : 10px">
+				<div class="col-xs-12">
+					<div style="font-weight : 550;font-size : 2rem">
+						Leave Entitlements
+					</div>
+				</div>
+			</div>
+			<div class="row" th:if="${not #lists.isEmpty(leaveTypes)}" >
+				<div class="col-xs-3"  th:each="leaveType:${leaveTypes}">
+					<div class="row">
+						<div class="col-xs-12">
+							<div th:text="${leaveType.leaveType}"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div th:text="${leaveType.entitlement}"></div>
+							<div  align="center" id=container3 style="width:550px;heigh:400px;margin:0 auto">
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-xs-6">
+			<div class="row" style="margin-bottom : 10px">
+				<div class="col-xs-12">
+					<div style="font-weight : 550;font-size : 2rem">
+						Your Balances
+					</div>
+				</div>
+			</div>
+			<div class="row" th:if="${not #lists.isEmpty(balanceArr)}" >
+				<div class="col-xs-3"  th:each="index : ${#numbers.sequence( 0, #arrays.length(balanceArr)-1)}">
+					<div class="row">
+						<div class="col-xs-12">
+							<div th:text="${leaveTypes[index].leaveType}"></div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div th:text="${balanceArr[index]}"></div>
+							<div  align="left" id=container2 style="width:550px;heigh:400px;margin:0 auto">
+						</div>
+						
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/variable-pie.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script th:inline="javascript">
+/*<![CDATA[*/
+var listofentitlement=/*[[${ListofEntitlement}]]*/;
+var ListofLeaveTypes=/*[[${TypesofLeave}]]*/ ;
+var listofdata=new Array();
+
+for(i=0;i<ListofLeaveTypes.length;i++){
+	 listofdata.push({name:ListofLeaveTypes[i], y:listofentitlement[i]});
+	}
+    
+ 
+	
+Highcharts.chart('container3', {
+    chart: {
+        type: 'variablepie'
+    },
+    title: {
+        text: 'Leave Entitlement'
+    },
+    tooltip: {
+        headerFormat: '',
+        pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' +
+            'Entitlement: <b>{point.y}</b><br/>'
+    },
+    series: [{
+        minPointSize: 80,
+        innerSize: '20%',   
+        data: listofdata
+    }]
+});
+
+
+
+
+//Used Array
+var listofusedleave=/*[[${UsedLeave}]]*/ ;
+
+let listofused=new Array(0);
+for(i=0;i<listofusedleave.length;i++){
+	listofused.push(listofusedleave[i])
+}
+
+//Name Array
+
+let listofLeaveNames=new Array(0);
+for(i=0;i<ListofLeaveTypes;i++){
+	listofLeaveNames.push(ListofLeaveTypes[i])
+}
+
+
+//BalanceArray
+var myvar=/*[[${balanceArr}]]*/ ;
+
+let listofbalance=new Array(0);
+for(i=0;i<myvar.length;i++){
+listofbalance.push(myvar[i]);
+}	
+
+Highcharts.chart('container2', {
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Leave Break Down'
+    },
+    xAxis: {
+        categories: ListofLeaveTypes
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Total Leave consumption'
+        }
+    },
+    legend: {
+        reversed: true
+    },
+    plotOptions: {
+        series: {
+            stacking: 'normal'
+        }
+    },
+    series: [{
+        name: 'Used',
+        data: listofused
+    }, {
+        name: 'Balance',
+        data: listofbalance
+    }]
+});
+/*]]>*/
+</script>
+ <script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script th:inline="javascript">
+
+
+</script>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>

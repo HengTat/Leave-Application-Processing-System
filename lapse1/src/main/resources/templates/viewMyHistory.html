@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<title>Leave History</title>
+</head>
+<body>
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+<div class="container" style="float:left; margin-left:80px; width:750px">
+<h1 align="center">My Leave History</h1>
+<p th:if="${leaves.empty}" style="color:red" align="center">No applications found.</p>
+<table class="table table-bordered" style="width:auto; text-align:center" align="center" th:if="${not #lists.isEmpty(leaves)}">
+	<thead style="background-color:lightgrey">         
+         <tr>
+		    <td><b>Leave ID</b></td>	
+			<td><b>Application Date</b></td>			
+			<td><b>Start Date</b></td>
+			<td><b>End Date</b></td>			
+			<td><b>Leave Type</b></td>
+			<td><b>No of days</b></td>
+			<td><b>Status</b></td>	
+			<td><b>Edit</b></td>
+			<td><b>Delete</b></td>
+			<td><b>Cancel</b></td>
+		</tr>
+	</thead>		
+	<tbody>	  
+		<tr th:each="leave : ${leaves}">  
+		    <td th:text=${leave.id}>Leave ID</td>	
+			<td th:text=${leave.applicationDate}>Application Date</td>			
+			<td th:with="startdatetime=${leave.startDate}" th:text=${startdatetime}>Start Date</td>
+			<td th:with="enddatetime=${leave.endDate}" th:text=${enddatetime}>End Date</td>			
+			<td th:text=${leave.leaveType.leaveType}>Leave Type</td>
+			<td th:text=${leave.noOfDays}>No of Days</td>
+			<td th:text=${leave.leaveStatus}>Status</td>	
+			<td><a th:href="@{/leave/edit/}+${leave.Id}" 
+				th:if="${leave.leaveStatus == T(com.example.lapse.enums.LeaveStatus).APPLIED}">
+			<button type="button" class="btn btn-danger" style="background-color:orange">Edit</button>
+			</a></td>
+			<td><a th:href="@{/leave/delete/}+${leave.Id}" 
+				th:if="${leave.leaveStatus == T(com.example.lapse.enums.LeaveStatus).APPLIED}">
+			<button type="button" class="btn btn-danger">Delete</button>
+			</a></td>
+			<td><a href="" th:href="@{/leave/cancel/}+${leave.id}" 
+      			th:if="${leave.leaveStatus == T(com.example.lapse.enums.LeaveStatus).APPROVED}">
+      		<button type="button" class="btn btn-warning">Cancel</button>
+      		</a></td>		
+        </tr>
+    </tbody>
+</table>
+</div>
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>

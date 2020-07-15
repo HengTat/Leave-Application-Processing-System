@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<title>Leave Type Form</title>
+<style>
+form
+{
+    margin-top:20px;
+    margin-left:100px;
+ 
+    width:360px;
+    height:200px;
+    display:inline-block;
+}
+</style>
+</head>
+
+<body>
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+<h1 style="margin-left:100px;">Leave Type Form</h1>
+<form action="#" th:object="${leavetype}" th:action="@{/leavetype/save}" method="post" >
+		<fieldset>
+		<input type="hidden" th:field="*{id}">  
+		</fieldset>
+		<fieldset style="margin-left:20px">
+			Name: <input type="text" class="form-control" th:field="*{leaveType}" style="width:300px">
+			<p th:if="${#fields.hasErrors('leaveType')}" th:errors="*{leaveType}"></p>
+		</fieldset>
+		<fieldset style="margin-left:20px">
+			Entitlement: <input type="text" class="form-control" th:field="*{entitlement}" style="width:300px">
+			<p th:if="${#fields.hasErrors('entitlement')}" th:errors="*{entitlement}"></p>
+		</fieldset>
+		<br>
+		<fieldset style="margin-left:20px;">
+			<button type="submit" class="btn btn-success">>Save</button>
+			<button type="reset" class="btn btn-danger">Reset</button>
+		</fieldset>
+		
+	</form>
+
+<th:block th:replace="~{layout/layout :: footer}"></th:block>	
+</body>
+</html>

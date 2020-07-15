@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Insert title here</title>
+
+<link rel="stylesheet" type="text/css" media="all" href="../../css/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div th:fragment="header">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"><b>Leave Application Processing System</b></a>
+    </div>
+    <ul class="nav navbar-nav" th:if="${session.role}=='Admin'">
+      <li><a th:href="@{/admin/}">Home</a></li>
+      <li><a th:href="@{/staff/list}">Manage Staff</a></li>
+      <li><a th:href="@{/leavetype/list/}">Manage Leave Type</a></li>
+      <li><a th:href="@{/ph/list/}">Manage Public Holidays</a></li>
+    </ul>
+    <ul class="nav navbar-nav" th:if="${session.role}=='Manager'">
+      <li><a th:href="@{/home/}">Home</a></li>
+      <li><a th:href="@{/leave/add}">Apply Leave</a></li>
+      <li><a th:href="@{/leave/addcompensation}">Claim Compensation</a></li>
+      <li><a th:href="@{/leave/viewallpending}">View for Approval</a></li>
+      <li><a th:href="@{/leave/viewhistory}">View My History</a></li>
+      <li><a th:href="@{/leave/viewSubHistory}">View Sub History</a></li>
+    </ul>
+    <ul class="nav navbar-nav" th:if="${session.role}=='Staff'">
+      <li><a th:href="@{/home/}">Home</a></li>
+      <li><a th:href="@{/leave/add}">Apply Leave</a></li>
+      <li><a th:href="@{/leave/addcompensation}">Claim Compensation</a></li>
+      <li><a th:href="@{/leave/viewhistory}">View My History</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" th:if="${session.role}!='Admin'">
+    	<li><p th:text="Welcome+' '+${session.name}" style="color:white; margin-top:15px"></p></li>
+      <li><a th:href="@{/home/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>    
+    <ul class="nav navbar-nav navbar-right" th:if="${session.role}=='Admin'">
+    	<li><p th:text="Welcome+' '+${session.name}" style="color:white; margin-top:15px"></p></li>
+      <li><a th:href="@{/admin/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+</div>
+
+<div th:fragment="footer" class="footer" style="position: fixed;left:0;bottom: 0;width: 100%; background-color: black;
+  color: white;
+  text-align: center;">
+<p><small>&copy; Copyright 2020, Team 9 JAVA CA</small></p>
+</div>
+</body>
+</html>

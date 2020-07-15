@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+<title>Staff Listing</title>
+<style>
+form
+{
+    margin-top:20px;
+    margin-left:100px;
+    border: 1px solid black;
+    width:400px;
+    height:400px;
+    display:inline-block;
+}
+
+textarea
+{
+	width:170px;
+	height:50px;
+}
+
+table
+{
+    margin-left:20px;
+}
+</style>
+</head>
+<body>
+<th:block th:replace="~{layout/layout :: header}"></th:block>
+<h1 style="margin-left:20px;">Staff Listing</h1>
+	<a class="btn btn-success" th:href="@{/staff/add}" style="margin-left:20px">Add New Staff</a>
+    <div th:if="${error != ''}" th:text="${error}" style="margin-left:20px;"></div>
+	<h2 th:if="${not #lists.isEmpty(slist)}" style="margin-left:20px">Staff List</h2>
+	<table class="table table-bordered" th:if="${not #lists.isEmpty(slist)}">
+        <tr style="background-color:lightgrey">
+		    <td ><b>Staff Id</b></td>	
+			<td ><b>Name</b></td>			
+			<td ><b>Role</b></td>
+			<td ><b>Email</b></td>			
+			<td ><b>Manager</b></td>
+			<td colspan="3"><b>Actions</b></td>
+		</tr>
+		<tr th:each="staff:${slist}">
+			<td th:text=${staff.id}>Id</td>
+			<td th:text=${staff.name}>Name</td>
+			<td th:text=${staff.role}>Role</td>
+			<td th:text=${staff.email}>Email</td>
+			<td th:text="${staff.manager != null ? staff.manager.name : 'No manager'}">Manager</td>
+			
+			<td><a href="EditStaff.html"
+				th:href="@{/staff/edit/}+${staff.id}" >Edit</a></td>
+			<td><a href="DeleteStaff.html"
+				th:href="@{/staff/delete/}+${staff.id}" style="color:red">Delete</a></td>
+			<td th:if="${staff.role == 'Staff'}">
+			<a href="PromoteStaff.html"
+				th:href="@{/staff/promote/}+${staff.id}">Promote</a></td>
+			<td th:if="${staff.role == 'Manager'}">
+			<a href="DemoteStaff.html"
+				th:href="@{/staff/demote/}+${staff.id}">Demote</a></td>
+		</tr>
+	</table>
+<div align="center">
+<br> 
+Total Staff: [[${totalItems}]]  -  Page [[${currentPage}]] of [[${totalPages}]]
+&nbsp;
+<a th:if="${currentPage>1}" th:href="@{/staff/page/(currentPage=1,numberofitems=${numberofitems})}">First</a>
+<span th:unless="${currentPage>1}">First</span>
+&nbsp;&nbsp;
+<a th:if="${currentPage> 1}" th:href="@{/staff/page/(currentPage=${currentPage-1},numberofitems=${numberofitems})}">Previous</a>
+<span th:unless="${currentPage> 1}">Previous</span>
+&nbsp;&nbsp;
+<span th:each="i:${#numbers.sequence(1,totalPages)}">
+<a th:if="${i !=currentPage}" th:href="@{/staff/page/(currentPage=${i},numberofitems=${numberofitems})}">[[${i}]]</a>
+<span th:unless="${i !=currentPage}">[[${i}]]</span>
+&nbsp;&nbsp;
+</span>
+
+<a th:if="${currentPage<totalPages}" th:href="@{/staff/page/(currentPage=${currentPage+1},numberofitems=${numberofitems})}">Next</a>
+<span th:unless="${currentPage<totalPages}">Next</span> 
+&nbsp;&nbsp;
+<a th:if="${currentPage<totalPages}" th:href="@{/staff/page/(currentPage=${totalPages},numberofitems=${numberofitems})}">Last</a>
+<span th:unless="${currentPage<totalPages}">Last</span>
+&nbsp;&nbsp;&nbsp;&nbsp;
+
+Number of Staff per page:
+&nbsp;&nbsp;
+<a th:href="@{/staff/page/(currentPage=${1},numberofitems=1)}">1</a>
+&nbsp;&nbsp;
+<a th:href="@{/staff/page/(currentPage=${1},numberofitems=5)}">5</a>
+&nbsp;&nbsp;
+<a th:href="@{/staff/page/(currentPage=${1},numberofitems=10)}">10</a>
+</div>
+<br>
+<br>
+<br>
+<br>
+
+<th:block th:replace="~{layout/layout :: footer}"></th:block>
+</body>
+</html>
